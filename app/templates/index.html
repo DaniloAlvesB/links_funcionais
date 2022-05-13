@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super() }} - Index {% endblock %}
+
+{% block content %}
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column d-flex text-center text-dark" style="margin-top: 13%">
+    <main class="px-3">
+        <h1><a style="color: rgb(255, 187, 0)" href="{{ url_for('login') }}">Entre</a> na central para acessar seus links</h1>
+        <p class="lead">Reúna todos os links para ter uma plataforma de acesso rápido. Se ainda não tem uma conta criada, crie clicando no botão abaixo:</p>
+        <p class="lead">
+        <a href="{{ url_for('register') }}" class="btn btn-lg btn-warning fw-bold border-warning">Criar conta</a>
+        </p>
+    </main>
+
+    <footer class="p-2 bd-highlight">
+        <!-- <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p> -->
+    </footer>
+</div>
+
+{% endblock %}

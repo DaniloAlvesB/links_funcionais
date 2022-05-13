@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ super() }} - Index {% endblock %}
+
+{% block content %}
+
+<div id="links_v" class="bg-dark text-light">
+    <div class="d-flex justify-content-center">
+        <h3>Todos os links</h3>
+    </div>
+
+    <div class="d-flex flex-wrap">
+        {% for l in links %}
+            {% if l.user_id == current_user.id %}
+                <a href="{{ l.link }}" style="text-decoration: none; margin: 0.3rem;" target="_blank">
+                    <div class="card text-white bg-secondary mb-3 text-center" style="max-width: 18rem; min-width: 18rem; max-height: 11rem;">
+                        <div class="card-header" style="font-weight: bold;">{{ l.name }}</div>
+                        <div class="card-body">
+                            {% if l.descricao != None %}
+                                <p class="card-text">{{ l.descricao }}</p>
+                            {% else %}
+                                <p class="card-text">Sem descrição</p>
+                            {% endif %}
+                        <p style="margin-top: 2px; margin-bottom: -10px; color:rgb(255, 208, 0)">Clique para acessar</p>
+                        </div>
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    
+</div>
+
+{% endblock %}
