@@ -107,8 +107,7 @@
                                     {% endif %}
                                 </div>
                         <form class="d-flex flex-wrap justify-content-between bt_action card-header" style="margin-top: -50px;" method="post" action="submit">
-                            <a href="/remove/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-danger">Apagar</a>
-                            <a href="/edit/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-warning">Editar</a>
+                            <a href="{{ l.link }}" id="id_user" name="id_user" class="btn btn-primary" target="_blank">Visitar</a>
                         </form>
                     </div>
                 </div>
