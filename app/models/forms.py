@@ -23,3 +23,4 @@ class LinkForm(FlaskForm):
     name = StringField('name', validators=[DataRequired(), Length(min=0, max=25, message="Limite de 25 caracteres")])
     descricao = StringField('descricao', validators=[Length(min=0, max=60, message="Limite de 100 caracteres")])
     link = StringField('link', validators=[DataRequired()])
+

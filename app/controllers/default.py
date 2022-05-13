@@ -82,14 +82,8 @@ def links():
 def links_register():
     if current_user.is_authenticated:
         form = LinkForm()
-
-        name = Link_a.query.filter_by(name=form.name.data).first()
-        
-        link_1 = Link_a.query.filter_by(link=form.link.data).first()
-
-        description = Link_a.query.filter_by(descricao=form.descricao.data).first()
-        
-        user_id = current_user.id
+        name = Link_a.query.filter_by(name=form.name.data, user_id=current_user.id).first()
+        link_1 = Link_a.query.filter_by(link=form.link.data, user_id=current_user.id).first()
 
         if name != None:
             if name.user_id != current_user.id:
@@ -101,7 +95,7 @@ def links_register():
         if form.is_submitted():
             if name == None and link_1 == None:
                 #INSERT
-                i = Link_a(form.name.data, form.link.data, form.descricao.data, user_id)
+                i = Link_a(form.name.data, form.link.data, form.descricao.data, current_user.id)
                 db.session.add(i)
                 db.session.commit()
 
@@ -113,10 +107,42 @@ def links_register():
             if link_1 != None:
                 flash("Este link já tem registo")
 
-        return render_template('register_link.html', form=form)
+        return render_template('register_link.html', form=form, links="")
     else:
         return render_template('index.html')
 
+
+@app.route('/remove/link/<int:id>', methods=["GET", "POST"])
+def remove_link(id):
+    if current_user.is_authenticated:
+        link_1 = Link_a.query.get(id)
+        db.session.delete(link_1)
+        db.session.commit()
+        link_1 = Link_a.query.all()
+        return render_template('links.html', links=link_1)
+    else:
+        return render_template('index.html')
+
+@app.route('/edit/link/<int:id>', methods=["GET", "POST"])
+def edit_link(id):
+    link_1 = Link_a.query.get(id)
+    form = LinkForm()
+
+    if current_user.is_authenticated:
+        if request.method == 'POST':
+            nome_tst = Link_a.query.filter_by(name=form.name.data, user_id=current_user.id).first()
+            link_tst = Link_a.query.filter_by(link=form.link.data, user_id=current_user.id).first()
+
+            link_1.name = form.name.data
+            link_1.descricao = form.descricao.data
+            link_1.link = form.link.data
+            db.session.commit()
+            link_1 = Link_a.query.all()
+            return render_template('links.html', links=link_1)
+        else:
+            return render_template('edit_link.html', form=form, link_a=link_1)
+    else:
+        return render_template('links.html', links=link_1)
 
 
 
