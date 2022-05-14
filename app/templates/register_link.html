@@ -49,6 +49,20 @@
                 </div>
             {% endif %}
         </div>
+
+        <div class="form-group ml-4">
+            {{ form.public(class="form-check-input") }}
+            Disponível para a comunidade
+            {% if form.errors.public %}
+                <div class="alert alert-danger">
+                    <ul>
+                        {% for e in form.errors.public %}
+                            <li>{{ e }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div><br>
         <button type="submit" class="btn btn-primary">Feito</button>
     </form>
 </div>

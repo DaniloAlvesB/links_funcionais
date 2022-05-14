@@ -42,15 +42,16 @@
       <header>
         <div class="container bg-dark" id="nav-container">
           <nav class="navbar navbar-expand-lg navbar-fixed-top d-flex felx-wrap justify-content-between">
-            <div>
+            <div style="min-width: 10rem;">
               <h5 id="logo" style="color: white;">Central de <p style="color: rgb(230, 214, 0);">links</p></h5>
             </div>
             <div class="navbar-nav navbar-right d-flex flex-wrap">
-              
-              <a href="{{ url_for('index') }}" class="a_txt m-1">Home</a>
+
+              <a href="{{ url_for('index') }}" class="a_txt m-2">Home</a>
+              <a href="{{ url_for('comunit') }}" class="a_txt m-2">Comunidade</a>
 
               {% if current_user.is_authenticated %}
-                <a href="{{ url_for('links') }}" class="a_txt m-1">Links</a>
+                <a href="{{ url_for('links') }}" class="a_txt m-2">Links</a>
               {% endif %}
 
             </div>

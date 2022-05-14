@@ -43,14 +43,16 @@ class Link_a(db.Model):
     link = db.Column(db.Text)
     descricao = db.Column(db.String(100))
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    public = db.Column(db.String(5))
 
     user = db.relationship('User', foreign_keys=user_id)
 
-    def __init__(self, name, link, descricao, user_id):
+    def __init__(self, name, link, descricao, user_id, public):
         self.name = name
         self.link = link
         self.descricao = descricao
         self.user_id = user_id
+        self.public = public
 
     def __repr__(self):
         return "<Post %r>" % self.id

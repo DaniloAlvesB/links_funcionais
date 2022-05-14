@@ -1,6 +1,6 @@
 from ast import Pass
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, EmailField
+from wtforms import StringField, PasswordField, EmailField, BooleanField
 from wtforms.validators import DataRequired, Length, Email
 
 class LoginForm(FlaskForm):
@@ -23,4 +23,5 @@ class LinkForm(FlaskForm):
     name = StringField('name', validators=[DataRequired(), Length(min=0, max=25, message="Limite de 25 caracteres")])
     descricao = StringField('descricao', validators=[Length(min=0, max=60, message="Limite de 100 caracteres")])
     link = StringField('link', validators=[DataRequired()])
+    public = BooleanField('public')
 

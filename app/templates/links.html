@@ -62,7 +62,11 @@
 
                 <div id="buttnos" class="d-flex flex-column m-2">
                     <!-- <a href="{{ l.link }}" style="text-decoration: none; margin: 0.3rem" class="bg_c" target="_blank"> -->
-                        <div class="card text-white mb-3 text-center bg-secondary" style="max-width: 18rem; min-width: 18rem; max-height: 11rem; min-height: 11rem;">
+                        {% if l.public == 'Sim' %}
+                            <div class="card text-white mb-3 text-center bg-success" style="max-width: 18rem; min-width: 18rem; max-height: 11rem; min-height: 11rem;">
+                        {% else %}
+                            <div class="card text-white mb-3 text-center bg-secondary" style="max-width: 18rem; min-width: 18rem; max-height: 11rem; min-height: 11rem;">
+                        {% endif %}
                             <a href="{{ l.link }}" class="a_text" target="_blank"><div class="card-header" style="font-weight: bold; text-decoration: none; color: white">{{ l.name }}</div></a>
                         
                                 <div class="card-body p-2 m-2">
@@ -74,6 +78,11 @@
                                 </div>
                         <form class="d-flex flex-wrap justify-content-between bt_action card-header" style="margin-top: -50px;" method="post" action="submit">
                             <a href="/remove/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-danger">Apagar</a>
+                            {% if l.public == 'Sim' %}
+                                <p style="opacity: 0.5;">Público</p>
+                            {% else %}
+                                <p style="opacity: 0.5;">Privado</p>
+                            {%endif%}
                             <a href="/edit/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-warning">Editar</a>
                         </form>
                     </div>

@@ -78,6 +78,12 @@ def links():
     else:
         return render_template('index.html')
 
+@app.route("/comunit")
+def comunit():
+    link_1 = Link_a.query.all()
+    return render_template('link_comunit.html', links=link_1)
+
+
 @app.route("/links/register", methods=["GET", "POST"])
 def links_register():
     if current_user.is_authenticated:
@@ -94,8 +100,15 @@ def links_register():
 
         if form.is_submitted():
             if name == None and link_1 == None:
+                result = 'Nao'
                 #INSERT
-                i = Link_a(form.name.data, form.link.data, form.descricao.data, current_user.id)
+                if form.public.data == True:
+                    result = 'Sim'
+                    print("public ", result)
+                else:
+                    result = 'Nao'
+                    print("private ", result)
+                i = Link_a(form.name.data, form.link.data, form.descricao.data, current_user.id, result)
                 db.session.add(i)
                 db.session.commit()
 
@@ -109,6 +122,17 @@ def links_register():
 
         return render_template('register_link.html', form=form, links="")
     else:
+        return render_template('index.html')
+
+
+@app.route("/user/<int:user_id>", methods=["GET", "POST"], endpoint='user')
+def usuario(user_id):
+    if current_user.is_authenticated:
+        user_1 = User.query.get(user_id)
+        link_1 = Link_a.query.all()
+        return render_template('perfil.html', links=link_1, users=user_1)
+    else:
+        flash('Entre com uma conta para acessar o usuário')
         return render_template('index.html')
 
 
@@ -136,6 +160,16 @@ def edit_link(id):
             link_1.name = form.name.data
             link_1.descricao = form.descricao.data
             link_1.link = form.link.data
+
+            if form.public.data == True:
+                result = 'Sim'
+                print("public ", result)
+            else:
+                result = 'Nao'
+                print("private ", result)
+
+            link_1.public = result
+
             db.session.commit()
             link_1 = Link_a.query.all()
             return render_template('links.html', links=link_1)
