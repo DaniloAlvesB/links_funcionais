@@ -3,8 +3,8 @@ from flask import render_template, flash, redirect, url_for, request, jsonify, r
 from flask_login import login_user, logout_user, current_user
 from json import dumps
 
-from app.models.tables import User, Link_a
-from app.models.forms import LoginForm, RegisterForm, LinkForm
+from app.models.tables import User, Link_a, Grupo, UserGrupo, Link_Group
+from app.models.forms import LoginForm, RegisterForm, LinkForm, GoupForm
 
 @lm.user_loader
 def load_user(id):
@@ -70,7 +70,7 @@ def register():
     return render_template('register.html', form=form)
 
 
-@app.route("/links")
+@app.route("/links/")
 def links():
     if current_user.is_authenticated:
         link_1 = Link_a.query.all()
@@ -78,7 +78,7 @@ def links():
     else:
         return render_template('index.html')
 
-@app.route("/comunit")
+@app.route("/comunidade/")
 def comunit():
     link_1 = Link_a.query.all()
     return render_template('link_comunit.html', links=link_1)
@@ -179,7 +179,71 @@ def edit_link(id):
         return render_template('links.html', links=link_1)
 
 
+#Grupos
 
+@app.route('/grupos/')
+def grupos():
+    if current_user.is_authenticated:
+        grupos = Grupo.query.all()
+        return render_template('groups.html', grupos=grupos)
+    else:
+        return render_template('index.html')
+
+@app.route('/grupo/<int:code>/<int:id>')
+def grupo(code, id):
+    if current_user.is_authenticated:
+        grupos = Grupo.query.get(id)
+        return render_template('groups.html', grupos=grupos)
+    else:
+        link_1 = Link_a.query.all()
+        return render_template('index.html')
+
+@app.route("/grupos/register", methods=["GET", "POST"])
+def grupos_register():
+    if current_user.is_authenticated:
+        form = GoupForm()
+        grupo_g = Grupo.query.all()
+        name = Grupo.query.filter_by(name=form.name.data).first()
+        if form.is_submitted():
+            if name == None:
+                #INSERT
+                id_g = Grupo.query.all()
+                numb_g = 0
+                for g in id_g:
+                    if g.main_user == current_user.id:
+                        numb_g += 1
+
+                i = Grupo(form.name.data, form.descricao.data, current_user.id, form.public.data, ((current_user.id*31)+numb_g))
+                db.session.add(i)
+                db.session.commit()
+                
+                #Grupos_user
+                if g.main_user == current_user.id:
+                    i = UserGrupo((current_user.id*31)+numb_g, current_user.id)
+                    db.session.add(i)
+                    db.session.commit()
+
+                flash("Grupo registrado")
+            else:
+                flash("Falha no registro")
+            if name != None:
+                flash("Este nome já está em uso")
+
+        return render_template('register_group.html', form=form, links="")
+    else:
+        return render_template('index.html')
+
+
+@app.route('/remove/grupo/<int:id>', methods=["GET", "POST"])
+def remove_group(id):
+    if current_user.is_authenticated:
+        grupo_1 = Grupo.query.get(id)
+        db.session.delete(grupo_1)
+        db.session.commit()
+        grupos = Grupo.query.all()
+        return render_template('groups.html', grupos=grupos)
+    else:
+        return render_template('index.html')
 # -------------------------------------------------------TESTE------------------------------------------------
 # @app.route("/teste/<info>")
 # @app.route("/teste", defaults={"info":None})

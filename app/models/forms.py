@@ -21,7 +21,14 @@ class RegisterForm(FlaskForm):
 
 class LinkForm(FlaskForm):
     name = StringField('name', validators=[DataRequired(), Length(min=0, max=25, message="Limite de 25 caracteres")])
-    descricao = StringField('descricao', validators=[Length(min=0, max=60, message="Limite de 100 caracteres")])
+    descricao = StringField('descricao', validators=[Length(min=0, max=60, message="Limite de 60 caracteres")])
     link = StringField('link', validators=[DataRequired()])
     public = BooleanField('public')
+
+class GoupForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired(), Length(min=0, max=50, message="Limite de 50 caracteres")])
+    descricao = StringField('descricao', validators=[Length(min=0, max=90, message="Limite de 90 caracteres")])
+    main_user = StringField('main_user')
+    public = BooleanField('public')
+    code = StringField('code')
 

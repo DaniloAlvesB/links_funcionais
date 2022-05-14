@@ -55,5 +55,58 @@ class Link_a(db.Model):
         self.public = public
 
     def __repr__(self):
-        return "<Post %r>" % self.id
+        return "<Links %r>" % self.id
 
+class Grupo(db.Model):
+    __tablename__ = 'grupos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    descricao = db.Column(db.String(100))
+    main_user = db.Column(db.Integer, db.ForeignKey('users.id'))
+    public = db.Column(db.Boolean)
+    code = db.Column(db.Integer)
+
+    def __init__(self, name, descricao, main_user, public, code):
+        self.name = name
+        self.descricao = descricao
+        self.main_user = main_user
+        self.public = public
+        self.code = code
+
+    def __repr__(self):
+        return "<Goup %r>" % self.id
+
+class UserGrupo(db.Model):
+    __tablename__ = 'user_grupo'
+
+    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, db.ForeignKey('grupos.id')) 
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __init__(self, group_id, user_id):
+        self.group_id = group_id
+        self.user_id = user_id
+
+    def __repr__(self):
+        return "<Goup %r>" % self.id
+
+class Link_Group(db.Model):
+    __tablename__ = 'links_grupo'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+    link = db.Column(db.Text)
+    descricao = db.Column(db.String(100))
+    group_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    user = db.relationship('User', foreign_keys=group_id)
+
+    def __init__(self, name, link, descricao, group_id):
+        self.name = name
+        self.link = link
+        self.descricao = descricao
+        self.group_id = group_id
+
+    def __repr__(self):
+        return "<Links por Grupo %r>" % self.id

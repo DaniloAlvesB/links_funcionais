@@ -48,11 +48,12 @@
             <div class="navbar-nav navbar-right d-flex flex-wrap">
 
               <a href="{{ url_for('index') }}" class="a_txt m-2">Home</a>
-              <a href="{{ url_for('comunit') }}" class="a_txt m-2">Comunidade</a>
 
               {% if current_user.is_authenticated %}
                 <a href="{{ url_for('links') }}" class="a_txt m-2">Links</a>
               {% endif %}
+
+              <a href="{{ url_for('comunit') }}" class="a_txt m-2">Comunidade</a>
 
             </div>
             <div class="navbar-nav navbar-right">
