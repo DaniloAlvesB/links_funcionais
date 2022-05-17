@@ -110,3 +110,10 @@ class Link_Group(db.Model):
 
     def __repr__(self):
         return "<Links por Grupo %r>" % self.id
+
+class PastaLink(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30))
+
+    def __init__(self, name):
+        self.name = name

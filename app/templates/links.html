@@ -7,7 +7,7 @@
 <style>
 
     .bt_action{
-        opacity: 0;
+        opacity: 0.5;
         transition-timing-function: ease;
         transition-duration: 0.5s;
     }
@@ -30,8 +30,17 @@
     a{
         text-decoration: none;
         color: white;  
+        cursor: pointer;
+        user-select: none;
         transition-timing-function: ease;
         transition-duration: 0.2s;
+    }
+
+    a:hover{
+        text-decoration: none;
+        color: rgb(0, 247, 255);  
+        transform: scale(1.02);
+        border-radius: 5px 5px 0px 0px;
     }
 
 
@@ -60,8 +69,37 @@
             {% for l in links %}
                 {% if l.user_id == current_user.id %}
 
-                <div id="buttnos" class="d-flex flex-column m-2">
-                    <!-- <a href="{{ l.link }}" style="text-decoration: none; margin: 0.3rem" class="bg_c" target="_blank"> -->
+                <div class="ds-flex flex-column text-center ">
+                    <div id="buttnos" class="d-flex flex-wrap m-2">
+                        {% if l.public == 'Nao' %}
+                            <a href="{{ l.link }}" class="card p-1 bg-info text-center" style="min-width: 16rem; max-width: 16rem;  border-radius: 5px 0px 0px 5px" target="_blank">{{ l.name }}</a>
+                            <a class="card bg-info text-center bt" style="writing-mode: vertical-rl; border-radius: 0px 5px 5px 0px" onclick="Mudarestado('{{ l.id }}')">l l l</a>
+                        {% else %}
+                            <a href="{{ l.link }}" class="card p-1 bg-success text-center" style="min-width: 16rem; max-width: 16rem;  border-radius: 5px 0px 0px 5px" target="_blank">{{ l.name }}</a>
+                            <a class="card bg-success text-center bt" style="writing-mode: vertical-rl; border-radius: 0px 5px 5px 0px" onclick="Mudarestado('{{ l.id }}')">l l l</a>
+                        {% endif %}
+                    </div>
+                    <div id="{{ l.id }}" style="display: none; border-radius: 5px; min-width: 17.6rem; max-width: 17.6rem; margin-top: -13px" class="bg-secondary ml-2">
+                        <div class="card-body p-2 m-2">
+                            {% if l.descricao != None %}
+                                <p class="card-text">{{ l.descricao }}</p>
+                            {% else %}
+                                <p class="card-text">Sem descrição</p>
+                            {% endif %}
+                        </div>
+                        <form class="d-flex flex-wrap justify-content-between bt_action card-header" method="post" action="submit">
+                            <a href="/remove/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-danger">Apagar</a>
+                            {% if l.public == 'Sim' %}
+                                <p style="color:rgb(0, 247, 255)">Público</p>
+                            {% else %}
+                                <p>Privado</p>
+                            {%endif%}
+                            <a href="/edit/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-warning">Editar</a>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- <div id="buttnos" class="d-flex flex-column m-2">
                         {% if l.public == 'Sim' %}
                             <div class="card text-white mb-3 text-center bg-success" style="max-width: 18rem; min-width: 18rem; max-height: 11rem; min-height: 11rem;">
                         {% else %}
@@ -86,8 +124,11 @@
                             <a href="/edit/link/{{ l.id }}" id="id_user" name="id_user" class="btn btn-warning">Editar</a>
                         </form>
                     </div>
-                </div>
-
+                </div> -->
+                <!-- <div class="card text-white m-2 text-center bg-success bt_action" style="min-width: 10px; max-height: 3rem;">
+                    <iframe src="{{ l.link }}" frameborder="0"></iframe>
+                </div> -->
+                
             {% endif %}
         {% endfor %}
     </div>
@@ -103,19 +144,20 @@
             {% for l in links %}
                 {% if l.user_id == 1 %}
 
-                <div id="buttnos" class="d-flex flex-column m-2">
-                    <!-- <a href="{{ l.link }}" style="text-decoration: none; margin: 0.3rem" class="bg_c" target="_blank"> -->
-                        <div class="card text-white mb-3 text-center bg-primary" style="max-width: 18rem; min-width: 18rem; max-height: 11rem; min-height: 11rem;">
-                            <a href="{{ l.link }}" class="a_text" target="_blank"><div class="card-header" style="font-weight: bold; text-decoration: none; color: white">{{ l.name }}</div></a>
-                        
-                                <div class="card-body p-2 m-2">
-                                    {% if l.descricao != None %}
-                                        <p class="card-text">{{ l.descricao }}</p>
-                                    {% else %}
-                                        <p class="card-text">Sem descrição</p>
-                                    {% endif %}
-                                </div>
-                        <form class="d-flex flex-wrap justify-content-between bt_action card-header" style="margin-top: -50px;" method="post" action="submit">
+                <div class="ds-flex flex-column text-center ">
+                    <div id="buttnos" class="d-flex flex-wrap m-2">
+                        <a href="{{ l.link }}" class="card p-1 bg-primary text-center" style="min-width: 16rem; max-width: 16rem;  border-radius: 5px 0px 0px 5px" target="_blank">{{ l.name }}</a>
+                        <a class="card bg-primary text-center bt" style="writing-mode: vertical-rl; border-radius: 0px 5px 5px 0px" onclick="Mudarestado('{{ l.id }}')">l l l</a>
+                    </div>
+                    <div id="{{ l.id }}" style="display: none; border-radius: 5px; min-width: 17.6rem; max-width: 17.6rem; margin-top: -13px" class="bg-secondary ml-2">
+                        <div class="card-body p-2 m-2">
+                            {% if l.descricao != None %}
+                                <p class="card-text">{{ l.descricao }}</p>
+                            {% else %}
+                                <p class="card-text">Sem descrição</p>
+                            {% endif %}
+                        </div>
+                        <form class="d-flex flex-wrap justify-content-between bt_action card-header" method="post" action="submit">
                             <a href="{{ l.link }}" id="id_user" name="id_user" class="btn btn-warning" target="_blank">Visitar</a>
                         </form>
                     </div>
@@ -126,5 +168,14 @@
     </div>
 </div>
 
+<script>
+    function Mudarestado(el){
+        var display = document.getElementById(el).style.display;
+        if(display == "none")
+            document.getElementById(el).style.display = 'block';
+        else
+            document.getElementById(el).style.display = 'none';
+    }
+</script>
 
 {% endblock %}
